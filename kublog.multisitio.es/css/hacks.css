@@ -1,0 +1,55 @@
+
+/* CURSOR EN CONTENIDO DE LOS ENLACES */
+a * { cursor:pointer; }
+
+/* AQUI SOLO LOS ESTILOS DE MATERIALIZECSS MODIFICADOS O FALTANTES */
+hr
+{
+    border:0;
+	height:1px;
+	overflow:hidden;
+	background-color:#e0e0e0;
+}
+
+p { margin-top:0; }
+
+.fixed-action-btn { left:23px; }
+
+input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea
+{
+    height:2rem;
+    margin-bottom:10px;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly])
+{
+    border-bottom: 1px solid #ef5350;
+    box-shadow: 0 1px 0 0 #ef5350;
+}
+
+textarea.materialize-textarea { padding:0; }
+
+.btn,
+.btn-floating { box-shadow:none; }
+.btn:hover,
+.btn-floating:hover
+{
+    box-shadow:
+        0 2px 2px 0 rgba(0,0,0,0.14),
+        0 1px 5px 0 rgba(0,0,0,0.12),
+        0 3px 1px -2px rgba(0,0,0,0.2);
+}
+
+.btn { padding:0 0.5rem; }
+
+.row { margin-bottom:0; }
+
+#sidenav-overlay { display:none; }
+
+.collection .collection-item.active { background:#ef5350; }
+
+
+
+
+
+

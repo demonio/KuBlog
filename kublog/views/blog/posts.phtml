@@ -1,0 +1,36 @@
+
+<?php if ( ! empty($main_header) ) : ?>
+    <div class="col s11 m12 l12">
+        <h1 class="center-align black-text">
+            <small><?=$header_type?></small>
+            <?=$main_header?>
+        </h1>
+    </div>
+<?php endif; ?>
+
+<div class="col s11 m7 l8">
+    <?php foreach ($posts as $o) :
+        $time = strtotime($o->post_date);
+        $post_date = date('Y/m/d', $time); ?>
+        <ul class="collection">
+            <li class="collection-item rowxsxs">
+                <h2><a href="/blog/<?="$post_date/$o->post_name"?>"><?=$o->post_title?></a></h2>
+                <div class="valign-wrapper">
+                    <i class="material-icons">date_range</i> &nbsp;
+                    <?=strftime('%e %B, %Y', $time)?>
+                    &nbsp; &nbsp;
+                    <?=Html::gravatar('distrotuz@gmail.com')?> &nbsp;
+                    by <?=$users[$o->post_author]->display_name?>
+                    &nbsp; &nbsp;
+                    <i class="material-icons">comment</i> &nbsp;
+                    comments
+                </div>
+            </li>
+            <li class="collection-item">
+                <div><?=_str::firstP($o->post_content)?></div>
+                <hr>
+                <p class="center-align"><a href="/blog/<?="$post_date/$o->post_name"?>">— CONTINUAR LEYENDO —</a></p>
+            </li>
+        </ul>
+    <?php endforeach; ?>
+</div>

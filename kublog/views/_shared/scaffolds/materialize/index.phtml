@@ -1,0 +1,46 @@
+
+
+
+<div class="col s12" id="scaffold">
+    <ul class="collection with-header">
+        <li class="collection-header">
+            <h1><?= $title = ucwords("$model") . ": $action_name" ?></h1>
+        </li>
+        <!--<li class="collection-item">
+            <div class="actions">
+                <?#= Html::linkAction("crear/", 'Crear registro', 'class="btn btn-primary"')?>
+            </div>
+        </li>-->
+        <li class="collection-item">
+            <?php if (isset($data->items)) : ?>
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <?php foreach (current($data->items)->fields as $field) : ?>
+                                <th><div><?= (current($data->items)->get_alias($field))?></div></th>
+                            <?php endforeach?>
+                            <th><div>Acciones</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data->items as $item) : ?>
+                            <tr>
+                                <?php foreach ($item->fields as $field) : ?>
+                                <td><?= h($item->$field)?></td>
+                                <?php endforeach?>
+                                <td><?= Html::linkAction("ver/$item->id", 'Ver')?> |
+                                <?= Html::linkAction("editar/$item->id", 'Editar')?> |
+                                <?= Html::linkAction("borrar/$item->id", 'Borrar', 'onclick="return confirm(\'¿Está seguro?\')"') ?>
+                                </td>
+                            </tr>
+                        <?php endforeach?>
+                    </tbody>
+                </table>
+                <h6>Páginas:</h6>
+                <?php View::partial('paginators/digg', false, array('page' => $data ,'url' => Router::get('controller_path').'/index')) ?>
+            <?php else : // Si no hay items?>
+                <h2>No hay ningún registro</h2>
+            <?php endif ?>
+        </li>
+    </ul>
+</div>

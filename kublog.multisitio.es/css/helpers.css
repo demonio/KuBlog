@@ -1,0 +1,31 @@
+
+/* MARGENES */
+.mb15 { margin-bottom:15px; } 
+.ml5 { margin-left:5px; }
+.ml15 { margin-left:15px; }
+.mr50 { margin-right:50px; }
+.mt10 { margin-top:10px; }
+.mv15 { margin-bottom:15px; margin-top:15px; }
+
+/* SANGRADO */
+.pa15 { padding:15px; }
+
+/* ENLAZAR BLOQUES */
+.box-link { overflow:hidden; position:relative; }
+.box-link a { height:100%; left:0; position:absolute; top:0; width:100%; }
+
+/* CENTAR CONTAINER O CONTENIDO */
+.center-container { display:inline-block; margin:0 auto; }
+.center-content * { text-align:center; }
+
+/* TODO EL ANCHO */
+.all-width { width:100%; }
+
+/* ESTILOS DE FUENTE */
+.italic { font-style:italic; }
+
+/* TIPO DE CAJA */
+.inline { display:inline-block; }
+
+/* ALTO DE LINEA */
+.collection .collection-item { line-height: inherit; }

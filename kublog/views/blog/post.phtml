@@ -1,0 +1,28 @@
+
+<div class="col s11 m7 l8">
+    <ul class="collection">
+        <li class="collection-item rowxsxs">
+            <h1><?=$post->post_title?></h1>
+            <div class="valign-wrapper">
+                <i class="material-icons">date_range</i> &nbsp;
+                <?=strftime( '%e %B, %Y', strtotime($post->post_date) )?>
+                &nbsp; &nbsp;
+                <?=Html::gravatar('distrotuz@gmail.com')?> &nbsp;
+                by <?=$users[$post->post_author]->display_name?>
+                &nbsp; &nbsp;
+                <i class="material-icons">comment</i> &nbsp;
+                comments
+            </div>
+        </li>
+        <li class="collection-item">
+            <div class="flow-text"><?=$post->post_content?></div>
+        </li>
+        <li class="collection-item">
+            <?php foreach ($tags as $o) : ?>
+                <a href="/blog/tag/<?=$o->slug?>/">
+                    <div class="chip"><?=$o->name?></div>
+                </a>
+            <?php endforeach; ?>
+        </li>
+    </ul>
+</div>

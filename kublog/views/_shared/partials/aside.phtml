@@ -1,0 +1,51 @@
+<?php
+$categories = View::getVar('categories');
+$last_posts = View::getVar('last_posts');
+?>
+<aside class="col s0 m5 l4">
+    <ul class="collection">
+        <li class="collection-item">
+            <h3>KumbiaPHP 1.0 RC</h3>
+            <a href="https://github.com/KumbiaPHP/KumbiaPHP/archive/1.0.zip"><img height="48px" src="/img/ZIP-48.png" width="48px"></a>
+            <a href="https://github.com/KumbiaPHP/KumbiaPHP/archive/1.0.tar.gz"><img height="48px" src="/img/TAR-48.png"></a>
+            <a href="http://github.com/KumbiaPHP/KumbiaPHP"><img height="48px" src="/img/GitHub-Mark-64px.png"></a>
+            <h4>Calidad del código:</h4>
+            <img src="https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png?b=1.0">
+            <img src="https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg">
+            <img src="/img/php7.svg">
+            <h4>Canal Slack de KumbiaPHP (nuevo)</h4>
+            <a class="valign-wrapper" href="http://slack.kumbiaphp.com/">Conecta <i class="material-icons">chevron_right</i> <img src="http://slack.kumbiaphp.com/badge.svg"></a>
+        </li>
+        <li class="collection-item">
+            <h3>Categorías</h3>
+            <?php foreach ($categories as $o) : ?>
+                <a class="valign-wrapper" href="/blog/category/<?=$o->slug?>/">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <?=$o->name?>
+                </a>
+            <?php endforeach; ?>
+        </li>
+        <li class="collection-item">
+            <h3>Enlaces</h3>
+        </li>
+        <li class="collection-item">
+            <h3>Artículos recientes</h3>
+            <?php foreach ($last_posts as $o) :
+                $time = strtotime($o->post_date);
+                $post_date = date('Y/m/d', $time); ?>
+                <a class="valign-wrapper" href="/blog/<?="$post_date/$o->post_name"?>">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <?=$o->post_title?>
+                    &nbsp; &nbsp;
+                    <label><?=strftime('%e %B, %Y', $time)?></label>
+                </a>
+            <?php endforeach; ?>        
+        </li>
+        <li class="collection-item">
+            <h3>Últimos comentarios</h3>       
+        </li>
+        <li class="collection-item">
+            <h3>Archivo</h3>       
+        </li>
+    </ul>
+</aside>

@@ -1,0 +1,70 @@
+
+@media (max-width: 600px)
+{
+    #important .s0 { display:none; }
+}
+
+@media (min-width: 601px) and (max-width: 992px)
+{
+	#important .m0 { display:none; }
+}
+
+@media (min-width: 993px)
+{
+	#important .l0 { display:none; }
+}
+
+a { cursor:pointer; }
+a:hover { color:#fe4747; }
+
+body { background:#eee; min-height:100%; }
+
+/* LOGO */
+.logo p { color:#bdbdbd; font:2rem/3rem 'georgia'; letter-spacing:-1px; margin:0; }
+.logo:hover p { color:#01a1cb; }
+
+/* FOOTER */
+footer
+{ 
+	background:#2b2b2b;
+	height:86px;
+	text-align:center; 
+}
+
+/* CABECERAS */
+h1 { color:black; font:3rem/6rem 'roboto'; letter-spacing:-1px; margin:0; }
+h2 { color:#01a1cb; font:1.5rem/2.8rem fantasy; font-style:italic; margin:0; }
+h3 { color:#757575; font:2rem/4rem 'roboto'; margin:0; }
+h4 { color:#01a1cb; font:1.3rem/2.4rem 'roboto'; margin:0; }
+h5 { color:#01a1cb; font:1.2rem/2.2rem 'roboto'; margin:0; }
+h6 { color:white; font:1rem/2rem 'roboto'; letter-spacing:1px; margin:0; }
+
+html { min-height:100%; }
+
+label { display:block; }
+
+th { padding-top:100px; }
+
+th div
+{
+	margin:0;
+	padding:0;
+	transform:rotate(315deg);
+	transform-origin:left 0;
+	white-space:nowrap;
+}
+
+.add-button { position:fixed; bottom:15px; left:15px; }
+
+.scroll-buttons { position:fixed; bottom:20px; right:20px; }
+.scroll-buttons a { background:#bdbdbd; display:block; margin-bottom:4px; }
+.scroll-buttons a i { color:#2b2b2b; }
+.scroll-buttons a:hover { background:white; }
+
+/* ETIQUETAS */
+.chip:hover { color:#fe4747; }
+
+
+
+
+
