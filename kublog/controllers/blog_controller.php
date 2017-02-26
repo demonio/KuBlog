@@ -15,7 +15,6 @@ class BlogController extends AppController
             View::select('posts');
         endif;
 
-        $this->users = (new WpUsers)->byID();
         $this->aside();
     }
 
@@ -27,11 +26,20 @@ class BlogController extends AppController
     }
 
     #
+    public function author($author)
+    {
+        $this->aside();
+        $this->posts = (new WpPosts)->byAuthor($author);
+        $this->main_header = $author;
+        $this->header_type = 'Autor:';
+        View::select('posts');
+    }
+
+    #
     public function category($category)
     {
         $this->aside();
         $this->posts = (new WpPosts)->byTerm('category', $category);
-        $this->users = (new WpUsers)->byID();
         $this->main_header = mb_strtoupper($category);
         $this->header_type = 'Categoría:';
         View::select('posts');
@@ -42,7 +50,6 @@ class BlogController extends AppController
     {
         $this->aside();
         $this->posts = (new WpPosts)->byTerm('post_tag', $tag);
-        $this->users = (new WpUsers)->byID();
         $this->main_header = mb_strtoupper($this->posts[0]->name);
         $this->header_type = 'Etiqueta:';
         View::select('posts');
