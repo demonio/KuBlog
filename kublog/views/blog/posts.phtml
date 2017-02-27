@@ -27,7 +27,11 @@
             <li class="collection-item rowxsxs">
                 <h2>
                     <a href="/blog/<?="$post_date/$o->post_name"?>">
-                        <?=str_ireplace($main_header, '<span style="background:yellow">' . $main_header . '</span>', $o->post_title)?>
+                        <?=($action_name == 'search')
+                            ? str_ireplace($main_header,
+                                '<span style="background:yellow">' . $main_header . '</span>',
+                                $o->post_title)
+                            : $o->post_title?>
                     </a>
                 </h2>
                 <div class="col s6 m6 l3 valign-wrapper">
@@ -57,9 +61,13 @@
                 <div class="clearfix"></div>
             </li>
             <li class="collection-item">
-                <div><?=str_ireplace($main_header, 
-                    '<span style="background:yellow">' . $main_header . '</span>', 
-                    _str::firstP($o->post_content) )?></div>
+                <div>
+                    <?=($action_name == 'search')
+                        ? str_ireplace( $main_header,
+                            '<span style="background:yellow">' . $main_header . '</span>',
+                            _str::firstP($o->post_content) )
+                        : _str::firstP($o->post_content)?>
+                    </div>
                 <hr>
                 <p class="center-align"><a href="/blog/<?="$post_date/$o->post_name"?>">— CONTINUAR LEYENDO —</a></p>
             </li>
