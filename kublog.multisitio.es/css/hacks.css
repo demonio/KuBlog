@@ -27,6 +27,9 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
     box-shadow: 0 1px 0 0 #ef5350;
 }
 
+nav { background:transparent; }
+nav .input-field label.active i { color:#01a1cb; }
+
 textarea.materialize-textarea { padding:0; }
 
 .btn,

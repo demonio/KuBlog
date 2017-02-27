@@ -4,6 +4,19 @@ $last_posts = View::getVar('last_posts');
 ?>
 <aside class="col s0 m5 l4">
     <ul class="collection">
+        <li class="collection-item pa0">
+            <nav>
+                <div class="nav-wrapper">
+                    <form action="/blog/search">
+                        <div class="input-field">
+                            <input type="search" name="q" placeholder="¿Buscar?">
+                            <label class="label-icon"><i class="material-icons">search</i></label>
+                            <i class="material-icons">close</i>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </li>
         <li class="collection-item">
             <h3>KumbiaPHP 1.0 RC</h3>
             <a href="https://github.com/KumbiaPHP/KumbiaPHP/archive/1.0.zip"><img height="48px" src="/img/ZIP-48.png" width="48px"></a>
