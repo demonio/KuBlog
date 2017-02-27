@@ -1,14 +1,16 @@
 
 /* MARGENES */
-.mb15 { margin-bottom:15px; } 
-.ml5 { margin-left:5px; }
-.ml15 { margin-left:15px; }
-.mr50 { margin-right:50px; }
-.mt10 { margin-top:10px; }
-.mv15 { margin-bottom:15px; margin-top:15px; }
+#important .ma10 { margin:10px; } 
+#important .mb15 { margin-bottom:15px; } 
+#important .ml5 { margin-left:5px; }
+#important .ml15 { margin-left:15px; }
+#important .mr50 { margin-right:50px; }
+#important .mt10 { margin-top:10px; }
+#important .mv15 { margin-bottom:15px; margin-top:15px; }
 
 /* SANGRADO */
-.pa15 { padding:15px; }
+#important .pa0 { padding:0; }
+#important .pa15 { padding:15px; }
 
 /* ENLAZAR BLOQUES */
 .box-link { overflow:hidden; position:relative; }

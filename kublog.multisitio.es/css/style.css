@@ -32,7 +32,7 @@ footer
 }
 
 /* CABECERAS */
-h1 { color:black; font:3rem/6rem 'roboto'; letter-spacing:-1px; margin:0; }
+h1 { color:black; font:3rem/4rem 'roboto'; letter-spacing:-1px; margin:0; }
 h2 { color:#01a1cb; font:1.5rem/2.8rem fantasy; font-style:italic; margin:0; }
 h3 { color:#757575; font:2rem/4rem 'roboto'; margin:0; }
 h4 { color:#01a1cb; font:1.3rem/2.4rem 'roboto'; margin:0; }
@@ -64,6 +64,8 @@ th div
 /* ETIQUETAS */
 .chip:hover { color:#fe4747; }
 
+/* GRAVATAR */
+img[src*="gravatar"] { border-radius:50%; vertical-align:middle; }
 
 
 

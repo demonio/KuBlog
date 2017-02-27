@@ -30,8 +30,9 @@ class BlogController extends AppController
     {
         $this->aside();
         $this->posts = (new WpPosts)->byAuthor($author);
-        $this->main_header = $author;
+        $this->main_header = $this->posts[0]->display_name;
         $this->header_type = 'Autor:';
+        $this->author = 1;
         View::select('posts');
     }
 
@@ -42,6 +43,16 @@ class BlogController extends AppController
         $this->posts = (new WpPosts)->byTerm('category', $category);
         $this->main_header = mb_strtoupper($category);
         $this->header_type = 'Categoría:';
+        View::select('posts');
+    }
+
+    #
+    public function search()
+    {
+        $this->aside();
+        $this->posts = (new WpPosts)->byQuery($_GET['q']);
+        $this->main_header = mb_strtoupper($_GET['q']);
+        $this->header_type = 'Buscar:';
         View::select('posts');
     }
 

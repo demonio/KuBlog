@@ -12,7 +12,7 @@ $post_date = date('Y/m/d', $time);
             </div>
             <div class="col s6 m6 l3 valign-wrapper">
                 <?=Html::gravatar('distrotuz@gmail.com')?> &nbsp;
-                by &nbsp; <a href="/blog/author/<?=$post->display_name?>/"><?=$post->display_name?></a>
+                by &nbsp; <a href="/blog/author/<?=$post->user_nicename?>/"><?=$post->display_name?></a>
             </div>
             <div class="clearfix l0"></div>
             <hr class="mv15 l0">
@@ -21,7 +21,7 @@ $post_date = date('Y/m/d', $time);
                 comments
             </div>
             <div class="col s6 m6 l3 valign-wrapper">
-                <a href="//www.facebook.com/sharer/sharer.php?u=//<?=$_SERVER['HTTP_HOST']?>/blog/<?="$post_date/$post->post_name"?>"
+                <a href="//www.facebook.com/sharer/sharer.php?u=https://<?=$_SERVER['HTTP_HOST']?>/blog/<?="$post_date/$post->post_name"?>"
                     target="_blank">
                     <img src="/img/icon-facebook.svg" width="32">
                 </a> &nbsp; &nbsp; &nbsp; 
