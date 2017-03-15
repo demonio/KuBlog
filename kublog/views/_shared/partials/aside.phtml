@@ -1,6 +1,9 @@
 <?php
 $categories = View::getVar('categories');
+$links = View::getVar('links');
 $last_posts = View::getVar('last_posts');
+$last_comments = View::getVar('last_comments');
+$archive = View::getVar('archive');
 ?>
 <aside class="col s0 m5 l4">
     <ul class="collection">
@@ -23,8 +26,12 @@ $last_posts = View::getVar('last_posts');
             <a href="https://github.com/KumbiaPHP/KumbiaPHP/archive/1.0.tar.gz"><img height="48px" src="/img/TAR-48.png"></a>
             <a href="http://github.com/KumbiaPHP/KumbiaPHP"><img height="48px" src="/img/GitHub-Mark-64px.png"></a>
             <h4>Calidad del código:</h4>
-            <img src="https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png?b=1.0">
-            <img src="https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg">
+            <a href="https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/?branch=1.0" target="_blank">
+                <img src="https://scrutinizer-ci.com/g/KumbiaPHP/KumbiaPHP/badges/quality-score.png?b=1.0">
+            </a>
+            <a href="https://codeclimate.com/github/KumbiaPHP/KumbiaPHP" target="_blank">
+                <img src="https://codeclimate.com/github/KumbiaPHP/KumbiaPHP/badges/gpa.svg">
+            </a>
             <img src="/img/php7.svg">
             <h4>Canal Slack de KumbiaPHP (nuevo)</h4>
             <a class="valign-wrapper" href="http://slack.kumbiaphp.com/">Conecta <i class="material-icons">chevron_right</i> <img src="http://slack.kumbiaphp.com/badge.svg"></a>
@@ -40,6 +47,12 @@ $last_posts = View::getVar('last_posts');
         </li>
         <li class="collection-item">
             <h3>Enlaces</h3>
+            <?php foreach ($links as $o) : ?>
+                <a class="valign-wrapper" href="<?=$o->link_url?>" rel="<?=$o->link_rel?>" target="<?=$o->link_target?>" title="<?=$o->link_description?>">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <?=$o->link_name?>
+                </a>
+            <?php endforeach; ?>  
         </li>
         <li class="collection-item">
             <h3>Artículos recientes</h3>
@@ -49,16 +62,35 @@ $last_posts = View::getVar('last_posts');
                 <a class="valign-wrapper" href="/blog/<?="$post_date/$o->post_name"?>">
                     <i class="material-icons">keyboard_arrow_right</i>
                     <?=$o->post_title?>
-                    &nbsp; &nbsp;
+                    &nbsp;
                     <label><?=strftime('%e %B, %Y', $time)?></label>
                 </a>
             <?php endforeach; ?>        
         </li>
         <li class="collection-item">
-            <h3>Últimos comentarios</h3>       
+            <h3>Últimos comentarios</h3> 
+            <?php foreach ($last_comments as $o) :
+                $time = strtotime($o->post_date);
+                $post_date = date('Y/m/d', $time); ?>
+                <div class="valign-wrapper">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <a href="/blog/author/<?=$o->comment_author?>/"><?=$o->comment_author?></a>
+                    &nbsp; comento en: &nbsp;
+                    <a href="/blog/<?="$post_date/$o->post_name/#comment-$o->comment_ID"?>"><?=$o->post_title?></a>
+                </div>
+            <?php endforeach; ?>       
         </li>
         <li class="collection-item">
-            <h3>Archivo</h3>       
+            <h3>Archivo</h3>
+            <?php foreach ($archive as $k=>$v) :
+                $time = strtotime($k);
+                $post_date = strftime('%B %Y', $time);
+                $post_date = ucfirst($post_date); ?>
+                <a class="valign-wrapper" href="/blog/<?=str_replace('-', '/', $k)?>">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                    <?="$post_date ($v)"?>
+                </a>
+            <?php endforeach; ?>         
         </li>
     </ul>
 </aside>

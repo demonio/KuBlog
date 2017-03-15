@@ -7,11 +7,15 @@ class BlogController extends AppController
     public function index($year='', $month='', $day='', $slug='')
     {
         if ($slug) :
+            if ( ! empty($_POST['add_comment']) ) (new WpComments)->add($_POST);
             $this->post = (new WpPosts)->one($slug);
             $this->tags = (new WpTerms)->tagsByPost($this->post);
+            $this->comments = (new WpComments)->all($this->post->ID);
+            $this->n_comments = (new WpComments)->count($this->post->ID);
             View::select('post');
         else :
-            $this->posts = (new WpPosts)->all(10, $year, $month, $day);
+            $this->posts = (new WpPosts)->all($year, $month, $day);
+            $this->n_comments = (new WpComments)->count();
             View::select('posts');
         endif;
 
@@ -22,7 +26,10 @@ class BlogController extends AppController
     public function aside()
     {
         $this->categories = (new WpTerms)->categories();
-        $this->last_posts = (new WpPosts)->all(3);
+        $this->links = (new WpLinks)->all();
+        $this->last_posts = (new WpPosts)->latest(5);
+        $this->last_comments = (new WpComments)->latest(4);
+        $this->archive = (new WpPosts)->archive();
     }
 
     #

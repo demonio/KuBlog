@@ -5,7 +5,7 @@ class IndexController extends AppController
 {
     public function index()
     {
-        Redirect::to('/blog');
+        Redirect::to('/blog/');
         return false;
     }
 }

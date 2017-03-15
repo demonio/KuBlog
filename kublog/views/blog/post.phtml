@@ -2,23 +2,26 @@
 $time = strtotime($post->post_date);
 $post_date = date('Y/m/d', $time); 
 ?>
-<div class="col s12 m7 l8">
+<article class="col s12 m7 l8">
     <ul class="collection">
-        <li class="collection-item rowxsxs">
-            <h1><?=$post->post_title?></h1>
+        <li class="collection-item row">
+            <h1><?=$title = $post->post_title?></h1>
             <div class="col s6 m6 l3 valign-wrapper">
                 <i class="material-icons">date_range</i> &nbsp;
                 <?=strftime('%e %B, %Y', $time)?>
             </div>
             <div class="col s6 m6 l3 valign-wrapper">
-                <?=Html::gravatar('distrotuz@gmail.com')?> &nbsp;
+                <?=Html::gravatar($post->user_email)?> &nbsp;
                 by &nbsp; <a href="/blog/author/<?=$post->user_nicename?>/"><?=$post->display_name?></a>
             </div>
             <div class="clearfix l0"></div>
             <hr class="mv15 l0">
             <div class="col s6 m6 l3 valign-wrapper">
-                <i class="material-icons">comment</i> &nbsp;
-                comments
+            <i class="material-icons">comment</i> &nbsp;
+                <a href="#comments">
+                    <?=empty($n_comments[$post->ID])?0:$n_comments[$post->ID]?>
+                    Comments
+                </a>
             </div>
             <div class="col s6 m6 l3 valign-wrapper">
                 <a href="//www.facebook.com/sharer/sharer.php?u=https://<?=$_SERVER['HTTP_HOST']?>/blog/<?="$post_date/$post->post_name"?>"
@@ -43,4 +46,40 @@ $post_date = date('Y/m/d', $time);
             <?php endforeach; ?>
         </li>
     </ul>
-</div>
+    <div id="comments">
+        <?php if ( ! empty($comments) ) Comments::all($comments); ?>
+        <ul class="collection">
+            <li class="collection-item">
+                <h3>Deja un comentario</h3>
+                <form action method="post">
+                    <p>Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con *</p>
+                    <p>
+                        <label for="comment">Comentario *</label> 
+                        <textarea class="materialize-textarea" id="comment" name="comment" maxlength="65525"></textarea>
+                    </p>
+                    <p>
+                        <label for="author">Nombre *</label>
+                        <input type="text" id="author" name="author" maxlength="245">
+                    </p>
+                    <p>
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" id="email" name="email" maxlength="100">
+                    </p>
+                    <p>
+                        <label for="url">Web</label>
+                        <input type="url" id="url" name="url" maxlength="200">
+                    </p>
+                    <p class="hide">
+                        <label for="telefono">Telefono</label>
+                        <input type="text" id="telefono" name="telefono" maxlength="9">
+                    </p>
+                    <p>
+                        <button type="submit" class="btn blue-bg" name="add_comment" value="1">Publicar Comentario</button> 
+                        <input type="hidden" name="post_ID" value="<?=$post->ID?>">
+                        <input type="hidden" name="parent" value="0">
+                    </p>            
+                </form>
+            </li>   
+        </ul>
+    </div>
+</article>

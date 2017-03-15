@@ -36,7 +36,7 @@ h1 { color:black; font:3rem/4rem 'roboto'; letter-spacing:-1px; margin:0; }
 h2 { color:#01a1cb; font:1.5rem/2.8rem fantasy; font-style:italic; margin:0; }
 h3 { color:#757575; font:2rem/4rem 'roboto'; margin:0; }
 h4 { color:#01a1cb; font:1.3rem/2.4rem 'roboto'; margin:0; }
-h5 { color:#01a1cb; font:1.2rem/2.2rem 'roboto'; margin:0; }
+h5 { color:#2b2b2b; font:1.1rem/2rem 'georgia'; margin:0; }
 h6 { color:white; font:1rem/2rem 'roboto'; letter-spacing:1px; margin:0; }
 
 html { min-height:100%; }
@@ -55,6 +55,16 @@ th div
 }
 
 .add-button { position:fixed; bottom:15px; left:15px; }
+
+/* COLORES DEL LOGO */
+.blue-bg { background:#01a1cb; }
+.blue-bg:hover { background:#fe4747; }
+.blue-color { color:#01a1cb; }
+.blue-color:hover { color:#fe4747; }
+.red-bg { background:#fe4747; }
+.red-bg:hover { background:#01a1cb; }
+.red-color { color:#fe4747; }
+.red-color:hover { color:#01a1cb; }
 
 .scroll-buttons { position:fixed; bottom:20px; right:20px; }
 .scroll-buttons a { background:#bdbdbd; display:block; margin-bottom:4px; }

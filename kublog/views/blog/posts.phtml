@@ -12,7 +12,7 @@
                         <em><?=$posts[0]->description;?></em>
                     </div>
                     <div class="col s6">
-                        <?=Html::gravatar('distrotuz@gmail.com', 'gravatar', 64)?>
+                        <?=Html::gravatar($posts[0]->user_email, 'gravatar', 64)?>
                         <a class="inline ma10" href="<?=$posts[0]->user_url;?>" target="_blank"><?=$posts[0]->user_url;?></a>
                     </div>
                     <div class="clearfix"></div>
@@ -39,14 +39,17 @@
                     <?=strftime('%e %B, %Y', $time)?>
                 </div>
                 <div class="col s6 m6 l3 valign-wrapper">
-                    <?=Html::gravatar('distrotuz@gmail.com')?> &nbsp;
+                    <?=Html::gravatar($o->user_email)?> &nbsp; &nbsp;
                     <a href="/blog/author/<?=$o->user_nicename?>/"><?=$o->display_name?></a>
                 </div>
                 <div class="clearfix l0"></div>
                 <hr class="mv15 l0">
                 <div class="col s6 m6 l3 valign-wrapper">
                     <i class="material-icons">comment</i> &nbsp;
-                    comments
+                    <a href="/blog/<?="$post_date/$o->post_name#comments"?>">
+                    	<?=empty($n_comments[$o->ID])?0:$n_comments[$o->ID]?>
+                    	Comments
+                    </a>
                 </div>
                 <div class="col s6 m6 l3 valign-wrapper">
                     <a href="//www.facebook.com/sharer/sharer.php?u=https://<?=$_SERVER['HTTP_HOST']?>/blog/<?="$post_date/$o->post_name"?>"

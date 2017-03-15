@@ -8,7 +8,7 @@
         <link href="/css/helpers.css" rel="stylesheet">
         <link href="/css/style.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title><?=empty($title)?'':$title?></title>
+        <title><?=empty($title)?ucfirst("$controller_name — $action_name"):$title?> — KumbiaPHP framework</title>
     </head>
     <body class="row" id="important">
         <div id="sidenav-overlay"></div>
