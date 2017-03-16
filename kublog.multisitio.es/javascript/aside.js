@@ -7,21 +7,17 @@ $(function()
         e.preventDefault();
         var to = $(this).data('toggle-aside');
 
-        $('aside').not(to).addClass('s0').css('position', 'relative');
+        $('aside').not(to).addClass('s0');
         $('#sidenav-overlay').hide();
 
         if ( $(to).hasClass('s0') )
         {
-            $(to).removeClass('s0').addClass('s10').css(
-            {
-                position:'absolute',
-                'z-index':998,
-            });
+            $(to).removeClass('s0').addClass('mobile');
             $('#sidenav-overlay').show();
         }
         else
         {
-            $(to).removeClass('s10').addClass('s0').css('position', 'relative');
+            $(to).removeClass('mobile').addClass('s0');
             $('#sidenav-overlay').hide();
         }
     });
@@ -29,7 +25,7 @@ $(function()
     /* OCULTA EL ASIDE PINCHANDO EN EL OVERLAY O EN UN ENLACE DEL ASIDE */
     $('body').on('click', '#sidenav-overlay, aside a', function()
     {
-        $('aside').addClass('s0').css('position', 'relative');
+        $('aside').addClass('s0');
         $('#sidenav-overlay').hide();
     });
 });

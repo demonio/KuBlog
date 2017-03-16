@@ -2,16 +2,31 @@
 @media (max-width: 600px)
 {
     #important .s0 { display:none; }
-}
+
+	/* ASIDE */
+	aside.mobile
+	{
+		height:100%;
+		padding:0 !important;
+	    position:fixed;
+	    top:0;
+	    right:0;
+	    z-index:998;
+	    overflow:auto;
+	}
+	aside.mobile ul { margin:0; }
+	}
 
 @media (min-width: 601px) and (max-width: 992px)
 {
 	#important .m0 { display:none; }
+	#sidenav-overlay { display:none !important; }
 }
 
 @media (min-width: 993px)
 {
 	#important .l0 { display:none; }
+	#sidenav-overlay { display:none !important; }
 }
 
 a { cursor:pointer; }
@@ -76,7 +91,3 @@ th div
 
 /* GRAVATAR */
 img[src*="gravatar"] { border-radius:50%; vertical-align:middle; }
-
-
-
-

@@ -5,7 +5,7 @@ $last_posts = View::getVar('last_posts');
 $last_comments = View::getVar('last_comments');
 $archive = View::getVar('archive');
 ?>
-<aside class="col s0 m5 l4">
+<aside class="col s0 m5 l4 blog">
     <ul class="collection">
         <li class="collection-item pa0">
             <nav>
@@ -86,7 +86,7 @@ $archive = View::getVar('archive');
                 $time = strtotime($k);
                 $post_date = strftime('%B %Y', $time);
                 $post_date = ucfirst($post_date); ?>
-                <a class="valign-wrapper" href="/blog/<?=str_replace('-', '/', $k)?>">
+                <a class="valign-wrapper" href="/blog/<?=str_replace('-', '/', $k)?>/">
                     <i class="material-icons">keyboard_arrow_right</i>
                     <?="$post_date ($v)"?>
                 </a>
