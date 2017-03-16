@@ -62,10 +62,10 @@ class WpComments extends ActiveRecord
         return $a;
     }
 
-	#
+	# ULTIMOS COMENTARIOS A PRIORI PARA EL ASIDE
     public function latest($n=4)
     {        
-    	$sql = "SELECT c.comment_ID, c.comment_author, p.post_date, p.post_title, p.post_name
+    	$sql = "SELECT c.comment_ID, c.comment_author, c.comment_author_url, p.post_date, p.post_title, p.post_name
             FROM wp_posts p, wp_comments c
             WHERE c.comment_post_ID=p.ID
             AND c.comment_approved=1

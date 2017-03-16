@@ -74,7 +74,7 @@ $archive = View::getVar('archive');
                 $post_date = date('Y/m/d', $time); ?>
                 <div class="valign-wrapper">
                     <i class="material-icons">keyboard_arrow_right</i>
-                    <a href="/blog/author/<?=$o->comment_author?>/"><?=$o->comment_author?></a>
+                    <a href="<?=$o->comment_author_url?>"><?=$o->comment_author?></a>
                     &nbsp; comento en: &nbsp;
                     <a href="/blog/<?="$post_date/$o->post_name/#comment-$o->comment_ID"?>"><?=$o->post_title?></a>
                 </div>
