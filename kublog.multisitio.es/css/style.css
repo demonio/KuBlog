@@ -16,7 +16,7 @@
 	    overflow:auto;
 	}
 	aside.mobile ul { margin:0; }
-	}
+}
 
 @media (min-width: 601px) and (max-width: 992px)
 {
