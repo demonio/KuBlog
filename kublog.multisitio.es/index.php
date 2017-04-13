@@ -62,7 +62,7 @@ define('APP_PATH', dirname(__DIR__) . '/kublog/');
  * CORE_PATH:
  * - Ruta al directorio que contiene el núcleo de Kumbia (por defecto la ruta al directorio core)
  */
-define('CORE_PATH', dirname(dirname(APP_PATH)) . '/core_1559/');
+define('CORE_PATH', dirname(dirname(APP_PATH)) . '/core_1589/');
 
 /**
  * Define el PUBLIC_PATH

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/css/prism.css" rel="stylesheet" />
+        <link href="/css/material-icons.css" rel="stylesheet">
+        <link href="/css/materialize.min.css" rel="stylesheet">
+        <link href="/css/hacks.css" rel="stylesheet">
+        <link href="/css/helpers.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title><?=empty($title)?ucfirst("$controller_name — $action_name"):$title?> — KumbiaPHP framework</title>
+    </head>
+    <body class="row" id="important">
+        <div id="sidenav-overlay"></div>
+
+        <?php View::partial('header'); ?>
+
+        <?php View::content(); ?>
+
+        <?php View::partial('footer'); ?>
+
+        <div class="modal pa15"></div>
+
+        <script src="/javascript/jquery-3.1.1.min.js"></script>
+        <script src="/javascript/prism.js"></script>
+        <script src="/javascript/materialize.min.js"></script>
+        <script src="/javascript/function.js"></script>
+        <script src="/javascript/ajax.js"></script>
+        <script src="/javascript/aside.js"></script>
+        <script src="/javascript/script.js"></script>
+        <?=Js::inc()?>
+
+        <?php #View::partial('toast'); ?>
+    </body>
+</html>

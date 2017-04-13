@@ -25,6 +25,6 @@ replaceAccents = function(q) {
 /* INPUT LIVE FILTER IS SENSITIVE CASE */
 jQuery.expr[':'].icontains = function(a, i, m)
 {
-    var q = jQuery(a).html();
+    var q = jQuery(a).text();
     return replaceAccents(q).toUpperCase().indexOf( replaceAccents(m[3]).toUpperCase() ) >= 0;
 };

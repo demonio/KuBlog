@@ -1,0 +1,25 @@
+
+<aside class="col s0 m4 l3 pr0">
+    <ul class="collection">
+        <li class="collection-item">
+            <h3>
+                Tablas
+                <a href="/admin/data/table">
+                    <i class="small material-icons">add</i>
+                </a>
+            </h3>
+        </li>
+        <li class="collection-item">
+            <?php View::partial('filter', false, ['filter'=>'.filtered']); ?>
+        </li>
+        <?php if ( ! empty($tables) ) : 
+            foreach ($tables as $t) :
+                $active = ($t === $_SERVER['REQUEST_URI']) ? 'active ' : ''; ?>
+                <li class="<?=$active?>box-link collection-item filtered">
+                    <?=$t?>
+                    <a href="/admin/data/rows/<?=$t?>/1"></a>
+                </li>
+            <?php endforeach;
+        endif; ?>
+    </ul>
+</aside>
