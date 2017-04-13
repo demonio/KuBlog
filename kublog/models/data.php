@@ -17,13 +17,6 @@ class Data extends LiteRecord
         return self::$table;
     }
 
-    public function countRows($table)
-    {
-        $pk = static::getPK($table);
-        $n = $this->first("SELECT COUNT($pk) AS count FROM $table");
-        return $n->count;
-    }
-
     public function createCol($data)
     {
         $table = $data['table'];
@@ -71,22 +64,17 @@ class Data extends LiteRecord
         return $this->first($sql, $row_id);
     }
 
-    public function readRows($table, $page=1)
+    public function filterRows($table)
     {
+        # WHERE
+        $pk = static::getPK($table);
         if ( ! empty($_POST['search_in']) ) Session::set('search_in', $_POST['search_in']);
         if ( ! empty($_POST['search_as']) ) Session::set('search_as', $_POST['search_as']);
         if ( ! empty($_POST['search_is']) ) Session::set('search_is', $_POST['search_is']);
-        if ( ! empty($_POST['order']) ) Session::set('order', $_POST['order']);
-        if ( ! empty($_POST['by']) ) Session::set('by', $_POST['by']);
-        if ( ! empty($_POST['rows_per_page']) ) Session::set('rows_per_page', $_POST['rows_per_page']);
-        $pk = static::getPK($table);
         $search_in = Session::has('search_in') ? Session::get('search_in') : $pk;
         $search_as = Session::has('search_as') ? Session::get('search_as') : '%%';
         $search_is = Session::has('search_is') ? Session::get('search_is') : '';
-        $order = Session::has('order') ? Session::get('order') : 'DESC';
-        $by = Session::has('by') ? Session::get('by') : $pk;
-        $rows_per_page = Session::has('rows_per_page') ? Session::get('rows_per_page') : 10;
-        $limit = $rows_per_page*$page . ",$rows_per_page";
+
         $where='';
         if ($search_is) :
             $where = " WHERE $search_in";
@@ -101,8 +89,35 @@ class Data extends LiteRecord
             endif;
         endif;
         
-        $sql = "SELECT * FROM $table$where ORDER BY $by $order LIMIT $limit";
-        #_::d($sql);
+        $sql = "SELECT * FROM $table$where";
+        return $sql;
+    }
+
+    public function countRows($table)
+    {
+        $sql = $this->filterRows($table);
+        $rows = $this->all($sql);
+        return count($rows);
+    }
+
+    public function readRows($table, $page=1)
+    {
+        $sql = $this->filterRows($table);
+
+        # ORDER BY
+        $pk = static::getPK($table);
+        if ( ! empty($_POST['order']) ) Session::set('order', $_POST['order']);
+        if ( ! empty($_POST['by']) ) Session::set('by', $_POST['by']);
+        $order = Session::has('order') ? Session::get('order') : 'DESC';
+        $by = Session::has('by') ? Session::get('by') : $pk;
+        $sql .=  " ORDER BY $by $order";
+
+        # LIMIT
+        if ( ! empty($_POST['rows_per_page']) ) Session::set('rows_per_page', $_POST['rows_per_page']);
+        $rows_per_page = Session::has('rows_per_page') ? Session::get('rows_per_page') : 10;
+        $limit = $rows_per_page*($page-1) . ",$rows_per_page";
+        $sql .=  " LIMIT $limit";
+
         $rows = $this->all($sql);
         return $rows;
     }
