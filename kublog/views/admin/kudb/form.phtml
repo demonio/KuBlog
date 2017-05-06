@@ -1,5 +1,4 @@
 <?php
-
 foreach ($cols as $o)
 {
     $col = $o->Field;
@@ -16,19 +15,10 @@ foreach ($cols as $o)
             <label for="<?=$col?>">
                 <span><?=$label?></span>
                 Off
-                <input<?php if ($value) echo ' checked'; ?> type="checkbox" id="<?=$col?>" name="<?=$col?>" value="<?=$value?>">
+                <input<?php if ($value) echo ' checked'; ?> type="checkbox" id="<?=$col?>" name="<?=$col?>" value="1">
                 <span class="black lever"></span>
                 On
             </label>
-        </div>
-        <?php
-    }
-    else if ( strstr($col, 'tags') )
-    {
-        ?>
-        <div class="col s12">
-            <label><?=$label?></label>
-            <input type="text" name="tags" value="<?=$value?>">
         </div>
         <?php
     }

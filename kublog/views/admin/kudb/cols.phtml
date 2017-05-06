@@ -1,5 +1,5 @@
 
-<form action class="col s12 m8 l9" method="post">
+<form action class="col s12" method="post">
     <ul class="collection">
         <li class="collection-item pb0 ph0" style="overflow:auto">
             <table class="striped white">
@@ -18,7 +18,7 @@
                                     <div class="height-limited">
                                         <?=str_replace('<', '&lt;', $r->$k)?>
                                         <?php if ($k == 'Field') : ?>
-                                            <a href="/admin/data/table/<?="$table/{$r->$k}"?>">
+                                            <a href="/admin/kudb/table/<?="$table/{$r->$k}"?>">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                         <?php endif; ?>
@@ -67,14 +67,11 @@
                 <button type="submit" class="all-width btn green darken-1" name="action" value="create_col">Crear campo</button>
             </div>
             <?php if ( ! empty($table) ) : ?>
-                <!-- <div class="col s12 m3 l3 mt10">
-                    <button type="submit" class="all-width btn blue darken-1" name="action" value="read_table">Actualizar campo</button>
-                </div> -->
                 <div class="col s12 m3 l3 mt10">
                     <button type="submit" class="all-width btn orange darken-1" name="action" value="update_col">Actualizar campo</button>
                 </div>
                 <div class="col s12 m3 l3 delete_col mt10">
-                    <button type="button" class="all-width btn red darken-1" data-toogle=".delete_col button">Eliminar campo</button>
+                    <button type="button" class="all-width btn red darken-1" data-toggle=".delete_col button">Eliminar campo</button>
                     <button type="submit" class="all-width btn red darken-1" name="action" style="display:none" value="delete_col"><?=_('¿Seguro?')?></button>
                 </div>
             <?php endif; ?>

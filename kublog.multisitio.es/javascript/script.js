@@ -30,10 +30,17 @@ $(function()
     materialize();
 
     /* MUESTRA Y OCULTA ALGO */
-    $('body').on('click', '[data-toogle]', function()
+    $('body').on('click', '[data-toggle]', function()
     {
-        var to = $(this).data('toogle');
+        var to = $(this).data('toggle');
         $(to).toggle();
+    });
+
+    /* EL VELO NEGRO CIERRA LOS ASIDE AL PINCHAR SOBRE EL */
+    $('body').on('click', '#sidenav-overlay', function()
+    {
+        $(this).hide();
+        $('aside').hide();
     });
 
     /* CARGA CONTENIDO EN UN MODAL Y LO ABRE */

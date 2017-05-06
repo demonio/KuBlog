@@ -1,14 +1,14 @@
 <?php 
 /**
  */
-class Data extends LiteRecord
+class Kudb extends LiteRecord
 {   
     protected static $pk = '';
     protected static $table = '';
 
-    public static function getPK($table)
+    public static function getPK()
     {
-        self::$table = $table;
+        self::$table = func_get_args()[0];
         return parent::getPK();
     }
 
@@ -40,8 +40,18 @@ class Data extends LiteRecord
     {   
         $table = $data['table'];
         unset($data['table'], $data['table_old']);
-        if ( $row = (new $table)->create($data) ) Session::setArray('toast', 'Registro creado');
-        return ($row) ? $row->id : 0;
+        foreach ($data as $k=>$v)
+        {
+            if ($k == 'id') continue;
+            $fields[] = $k;
+            $params[] = '?';
+            $values[] = ( strstr($k, '_at') ) ? date('Y:m:d H:i:s') : $v;
+        }
+        $fields = implode(',', $fields);
+        $params = implode(',', $params);
+        $sql = "INSERT INTO $table ($fields) VALUES ($params)";
+        if ( static::query($sql, $values) ) Session::setArray('toast', 'Registro creado');
+        return static::lastInsertId();
     }
 
     public function createTable($data)
@@ -58,6 +68,15 @@ class Data extends LiteRecord
         return $a;
     }
 
+    public function readDatabase($database='default')
+    {
+        include APP_PATH.'config/databases.php';
+        $dsn = $databases[$database]['dsn'];
+        $s = explode('dbname=', $dsn)[1];
+        $dbname = explode(';', $s)[0];
+        return $dbname;
+    }
+
     public function readRow($table, $row_id)
     {
         $sql = "SELECT * FROM $table WHERE id=?";
@@ -68,16 +87,19 @@ class Data extends LiteRecord
     {
         # WHERE
         $pk = static::getPK($table);
-        if ( ! empty($_POST['search_in']) ) Session::set('search_in', $_POST['search_in']);
-        if ( ! empty($_POST['search_as']) ) Session::set('search_as', $_POST['search_as']);
-        if ( ! empty($_POST['search_is']) ) Session::set('search_is', $_POST['search_is']);
-        $search_in = Session::has('search_in') ? Session::get('search_in') : $pk;
-        $search_as = Session::has('search_as') ? Session::get('search_as') : '%%';
+
+        if ( isset($_POST['search_in']) ) Session::set('search_in', $_POST['search_in']);
+        if ( isset($_POST['search_as']) ) Session::set('search_as', $_POST['search_as']);
+        if ( isset($_POST['search_is']) ) Session::set('search_is', $_POST['search_is']);
+
+        $search_in = Session::has('search_in') ? Session::get('search_in') : '';
+        $search_as = Session::has('search_as') ? Session::get('search_as') : '';
         $search_is = Session::has('search_is') ? Session::get('search_is') : '';
 
         $where='';
         if ($search_is) :
             $where = " WHERE $search_in";
+
             if ($search_as == '%%') :
                 $where .= " LIKE '%$search_is%'";
             elseif ($search_as == '^%') :
@@ -118,6 +140,7 @@ class Data extends LiteRecord
         $limit = $rows_per_page*($page-1) . ",$rows_per_page";
         $sql .=  " LIMIT $limit";
 
+        #_::d($sql);
         $rows = $this->all($sql);
         return $rows;
     }
@@ -129,6 +152,19 @@ class Data extends LiteRecord
         $table = "Tables_in_$db->name";
         foreach ($tables as $o) $a[] = $o->$table;
         return $a;
+    }
+
+    public function readVersion()
+    {
+        $url = 'https://raw.githubusercontent.com/demonio/KuDB/master/kudb/config/version.ini';
+        $s = file_get_contents($url);
+        $vr = parse_ini_string($s, true);
+        $vl = Config::read('version');
+        $version_remota = $vr['application']['version'];
+        $version_local = $vl['application']['version'];
+
+        if ($version_remota > $version_local) 
+            return $version_remota;
     }
 
     public function updateCol($data)
@@ -155,7 +191,16 @@ class Data extends LiteRecord
     {
         $table = $data['table'];
         unset($data['table'], $data['table_old']);
-        if ( (new $table)->update($data) ) Session::setArray('toast', 'Registro actualizado');
+        foreach ($data as $k=>$v)
+        {
+            if ($k == 'id') continue;
+            $fields[] = "$k=?";
+            $values[] = ( strstr($k, '_in') ) ? date('Y:m:d H:i:s') : $v;
+        }
+        $fields = implode(',', $fields);
+        $values[] = $id = $data['id'];
+        $sql = "UPDATE $table SET $fields WHERE id=?";
+        if ( static::query($sql, $values) ) Session::setArray('toast', 'Registro actualizado');
     }
 
     public function updateTable($data)
