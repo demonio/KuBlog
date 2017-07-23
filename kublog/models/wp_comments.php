@@ -1,7 +1,7 @@
 <?php
 /**
  */
-class WpComments extends ActiveRecord
+class WpComments extends LiteRecord
 {
     #
     public function add($post)
@@ -23,26 +23,42 @@ class WpComments extends ActiveRecord
         $user_id = 0;
 
         $sql = "INSERT INTO wp_comments SET
-            comment_post_ID=$comment_post_ID,
-            comment_author='$comment_author',
-            comment_author_email='$comment_author_email',
-            comment_author_url='$comment_author_url',
-            comment_author_ip='$comment_author_ip',
-            comment_date='$comment_date',
-            comment_date_gmt='$comment_date_gmt',
-            comment_content='$comment_content',
-            comment_karma=$comment_karma,
-            comment_approved=$comment_approved,
-            comment_agent='$comment_agent',
-            comment_type='$comment_type',
-            comment_parent=$comment_parent,
-            user_id=$user_id
+            comment_post_ID=?,
+            comment_author=?,
+            comment_author_email=?,
+            comment_author_url=?,
+            comment_author_ip=?,
+            comment_date=?,
+            comment_date_gmt=?,
+            comment_content=?,
+            comment_karma=?,
+            comment_approved=?,
+            comment_agent=?,
+            comment_type=?,
+            comment_parent=?,
+            user_id=?
         ";
-        $this->sql($sql);
+        static::query($sql,
+        [
+            $comment_post_ID, 
+            $comment_author, 
+            $comment_author_email, 
+            $comment_author_url, 
+            $comment_author_ip,
+            $comment_date,
+            $comment_date_gmt,
+            $comment_content,
+            $comment_karma,
+            $comment_approved,
+            $comment_agent,
+            $comment_type,
+            $comment_parent,
+            $user_id
+        ]);
     }
 
 	#
-    public function all($post_id)
+    static function all($post_id)
     {        
     	$sql = "SELECT
                 c.comment_ID, 
@@ -54,17 +70,18 @@ class WpComments extends ActiveRecord
 	    		c.comment_parent
             FROM wp_posts p, wp_comments c
             WHERE c.comment_post_ID=p.ID
-            AND c.comment_post_ID=$post_id
+            AND c.comment_post_ID=?
             AND c.comment_approved=1
             ORDER BY c.comment_date
         ";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql, [$post_id]);
         return $a;
     }
 
 	# ULTIMOS COMENTARIOS A PRIORI PARA EL ASIDE
     public function latest($n=4)
     {        
+        $n = (int)$n;
     	$sql = "SELECT c.comment_ID, c.comment_author, c.comment_author_url, p.post_date, p.post_title, p.post_name
             FROM wp_posts p, wp_comments c
             WHERE c.comment_post_ID=p.ID
@@ -72,7 +89,7 @@ class WpComments extends ActiveRecord
             ORDER BY c.comment_date DESC
             LIMIT $n
         ";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql);
         return $a;
     }
 
@@ -83,8 +100,9 @@ class WpComments extends ActiveRecord
             FROM wp_comments c
             WHERE c.comment_approved=1
         ";
-        if ($id) $sql .= " AND comment_post_ID=$id";
-        $comments = $this->find_all_by_sql($sql);
+        if ($id) $sql .= " AND comment_post_ID=?";
+        $comments = parent::all($sql, [$id]);
+        if ( ! $comments ) return;
         foreach ($comments as $o)
         {
             $a[$o->comment_post_ID] = empty($a[$o->comment_post_ID]) ? 1 : ++$a[$o->comment_post_ID];

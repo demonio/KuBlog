@@ -1,7 +1,7 @@
 <?php
 /**
  */
-class WpPosts extends ActiveRecord
+class WpPosts extends LiteRecord
 {
     #
     public function one($slug)
@@ -12,31 +12,39 @@ class WpPosts extends ActiveRecord
             FROM wp_posts p, wp_users u
             WHERE p.post_author=u.ID
             AND p.post_status='publish'
-            AND p.post_name='$slug'
+            AND p.post_name=?
         ";
-        $a = $this->find_by_sql($sql);
+        $a = parent::first($sql, [$slug]);
         return $a;
     }
 
     #
-    public function all($year='', $month='', $day='')
+    static function all($year='', $month='', $day='')
     {
         $sql = "SELECT p.ID, p.post_name, p.post_title, p.post_date, p.post_author, p.post_content, u.user_nicename, u.user_email, u.display_name 
             FROM wp_posts p, wp_users u
             WHERE p.post_author=u.ID
             AND p.post_status='publish'
             AND p.post_type='post'";
-        if ($day) $sql .= " AND p.post_date LIKE '$year-$month-$day%'";
-        else if ($month) $sql .= " AND p.post_date LIKE '$year-$month%'";
-        else if ($year) $sql .= " AND p.post_date LIKE '$year%'";
+        if ($day) :
+            $sql .= " AND p.post_date LIKE ?";
+            $value = "$year-$month-$day%";
+        elseif ($month) :
+            $sql .= " AND p.post_date LIKE ?";
+            $value = "$year-$month%";
+        elseif ($year) :
+            $sql .= " AND p.post_date LIKE ?";
+            $value = "$year%";
+        endif;
         $sql .= " ORDER BY p.post_date DESC LIMIT 10";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql, [$value]);
         return $a;
     }
 
     #
     public function latest($n=5)
     {
+        $n = (int)$n;
         $sql = "SELECT p.post_date, p.post_title, p.post_name
             FROM wp_posts p
             WHERE p.post_status='publish'
@@ -44,7 +52,7 @@ class WpPosts extends ActiveRecord
             ORDER BY p.post_date DESC
             LIMIT $n
         ";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql);
         return $a;
     }
 
@@ -57,7 +65,7 @@ class WpPosts extends ActiveRecord
             AND p.post_type='post'
             ORDER BY p.post_date DESC
         ";
-        $posts = $this->find_all_by_sql($sql);
+        $posts = parent::all($sql);
         foreach ($posts as $o)
         {
             $time = strtotime($o->post_date);
@@ -76,11 +84,11 @@ class WpPosts extends ActiveRecord
             FROM wp_posts p, wp_users u
             WHERE p.post_author=u.ID
             AND p.post_status='publish'
-            AND u.user_nicename='$author'
+            AND u.user_nicename=?
         ";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql, [$author]);
         $sql = "SELECT meta_value FROM wp_usermeta WHERE user_id={$a[0]->ID} AND meta_key='description'";
-        $b = $this->find_by_sql($sql);
+        $b = parent::first($sql);
         $a[0]->description = $b->meta_value;
         return $a;
     }
@@ -88,15 +96,13 @@ class WpPosts extends ActiveRecord
     #
     public function byQuery($q)
     {
-        if ( preg_match('/[^0-9a-z_ \-]/i', $q) ) throw new KumbiaException('QUERY MALO');
-
         $sql = "SELECT p.ID, p.post_name, p.post_title, p.post_date, p.post_author, p.post_content, u.user_nicename, u.user_email, u.user_url, u.display_name
             FROM wp_posts p, wp_users u
             WHERE p.post_author=u.ID
             AND p.post_status='publish'
-            AND (p.post_title LIKE '%$q%' OR p.post_content LIKE '%$q%')
+            AND (p.post_title LIKE ? OR p.post_content LIKE ?)
         ";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql, ["%$q%", "%$q%"]);
         return $a;
     }
 
@@ -109,11 +115,11 @@ class WpPosts extends ActiveRecord
             AND p.ID=tr.object_id
             AND tr.term_taxonomy_id=tt.term_taxonomy_id
             AND tt.term_id=t.term_id
-            AND tt.taxonomy='$term'
-            AND t.slug='$item'
+            AND tt.taxonomy=?
+            AND t.slug=?
             AND p.post_author=u.ID
         ";
-        $a = $this->find_all_by_sql($sql);
+        $a = parent::all($sql, [$term, $item]);
         return $a;
     }
 }

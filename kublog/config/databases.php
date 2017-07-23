@@ -1,7 +1,7 @@
 <?php
 $databases['default'] =
 [
-    'dsn'      => 'mysql:host=127.0.0.1:3307;dbname=wordpress;charset=utf8',
+    'dsn'      => 'mysql:host=127.0.0.1:3307;dbname=rola;charset=utf8',
     'username' => 'root',
     'password' => '',
     'params'   =>

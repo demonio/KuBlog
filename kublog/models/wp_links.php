@@ -1,13 +1,13 @@
 <?php
 /**
  */
-class WpLinks extends ActiveRecord
+class WpLinks extends LiteRecord
 {
 	#
-    public function all()
+    static function all()
     {
-        $a = $this->find("columns: link_url, link_name, link_target, link_description, link_rel",
-        	"conditions: link_visible='Y'");
+    	$sql = "SELECT link_url, link_name, link_target, link_description, link_rel FROM wp_links WHERE link_visible='Y'";
+        $a = parent::all($sql);
         return $a;
     }
 }
