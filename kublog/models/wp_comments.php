@@ -8,13 +8,13 @@ class WpComments extends LiteRecord
     { 
         if ($post['telefono']) return;
         $comment_post_ID = filter_var($post['post_ID'], FILTER_SANITIZE_NUMBER_INT);
-        $comment_author = h($post['author']);
+        $comment_author = strip_tags($post['author']);
         $comment_author_email = filter_var($post['email'], FILTER_SANITIZE_EMAIL);
         $comment_author_url = filter_var($post['url'], FILTER_SANITIZE_URL);
         $comment_author_ip = $_SERVER['REMOTE_ADDR'];
         $comment_date = date('Y-m-d H:i:s');
         $comment_date_gmt = date('Y-m-d H:i:s');
-        $comment_content = h($post['comment']);
+        $comment_content = strip_tags($post['comment']);
         $comment_karma = 0;
         $comment_approved = 1;
         $comment_agent = $_SERVER['HTTP_USER_AGENT'];
