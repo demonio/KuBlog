@@ -12,6 +12,8 @@ class BlogController extends AppController
             $this->tags = (new WpTerms)->tagsByPost($this->post);
             $this->comments = (new WpComments)->all($this->post->ID);
             $this->n_comments = (new WpComments)->count($this->post->ID);
+            $this->comment = ( Input::get('comment_ID') )
+                ? (new WpComments)->one( Input::get('comment_ID') ) : '';
             View::select('post');
         else :
             $this->posts = (new WpPosts)->all($year, $month, $day);

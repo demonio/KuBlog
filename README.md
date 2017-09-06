@@ -8,6 +8,7 @@
 * [Vista del post](http://kublog.multisitio.es/blog/2017/02/24/dummy) — [TERMINADO]
 * [Enlaces RRSS en post](http://kublog.multisitio.es/blog) — [TERMINADO]
 * [Comentarios en post y su formulario](http://kublog.multisitio.es/blog/2017/02/24/dummy#comments) — [TERMINADO]
+* [Respuestas a comentarios](http://kublog.multisitio.es/blog/2017/02/24/dummy#comments) — [TERMINADO]
 * [Cosas de KumbiaPHP en columna](http://kublog.multisitio.es/blog) — [TERMINADO]
 * [Categorias en columna](http://kublog.multisitio.es/blog) — [TERMINADO]
 * [Enlaces en columna](http://kublog.multisitio.es/blog) — [TERMINADO]

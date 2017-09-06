@@ -15,6 +15,7 @@ class Comments
 			            </h4>
 			    		<h5><?=strftime('%e %B, %Y A LAS %k:%M', $time)?></h5>
 						<div class="mv15"><?=$o->comment_content?></div>
+						<a href="?comment_ID=<?=$o->comment_ID?>#comment-form">RESPONDER</a>
 						<?php
 						$id = $o->comment_ID;
 						unset($comments[$k]);

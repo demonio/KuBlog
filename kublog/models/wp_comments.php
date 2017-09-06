@@ -109,4 +109,12 @@ class WpComments extends LiteRecord
         }
         return $a;
     }
+
+    #
+    public function one($id)
+    {        
+        $sql = "SELECT * FROM wp_comments c WHERE c.comment_ID=?";
+        $a = $this->first($sql, [$id]);
+        return $a;
+    }
 }

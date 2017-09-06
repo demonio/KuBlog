@@ -52,7 +52,16 @@ $post_date = date('Y/m/d', $time);
             <li class="collection-item">
                 <h3>Deja un comentario</h3>
                 <form action method="post">
-                    <p>Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con *</p>
+                    <p>
+                        <em><small>Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con *</small></em>
+                    </p>
+                    <?php if ($comment) : ?>
+                        <p>
+                            Estas contestando a <?=$comment->comment_author?>
+                            <blockquote><?=$comment->comment_content?></blockquote>
+                            <input type="hidden" name="parent" value="<?=$comment->comment_ID?>">
+                        </p>
+                    <?php endif; ?>
                     <p>
                         <label for="comment">Comentario *</label> 
                         <textarea class="materialize-textarea" id="comment" name="comment" maxlength="65525"></textarea>
