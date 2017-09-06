@@ -14,7 +14,9 @@ class WpPosts extends LiteRecord
             AND p.post_status='publish'
             AND p.post_name=?
         ";
+        #_::d([$sql, $slug]);
         $a = parent::first($sql, [$slug]);
+        #_::d($a);
         return $a;
     }
 
