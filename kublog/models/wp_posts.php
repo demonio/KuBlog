@@ -14,32 +14,31 @@ class WpPosts extends LiteRecord
             AND p.post_status='publish'
             AND p.post_name=?
         ";
-        #_::d([$sql, $slug]);
-        $a = parent::first($sql, [$slug]);
-        #_::d($a);
+        $a = (object)$this->first($sql, [$slug])->values;
         return $a;
     }
 
     #
-    static function all($year='', $month='', $day='')
+    public function allPost($year='', $month='', $day='')
     {
         $sql = "SELECT p.ID, p.post_name, p.post_title, p.post_date, p.post_author, p.post_content, u.user_nicename, u.user_email, u.display_name 
             FROM wp_posts p, wp_users u
             WHERE p.post_author=u.ID
             AND p.post_status='publish'
             AND p.post_type='post'";
+        $values = [];
         if ($day) :
             $sql .= " AND p.post_date LIKE ?";
-            $value = "$year-$month-$day%";
+            $values[] = "$year-$month-$day%";
         elseif ($month) :
             $sql .= " AND p.post_date LIKE ?";
-            $value = "$year-$month%";
+            $values[] = "$year-$month%";
         elseif ($year) :
             $sql .= " AND p.post_date LIKE ?";
-            $value = "$year%";
+            $values[] = "$year%";
         endif;
         $sql .= " ORDER BY p.post_date DESC LIMIT 10";
-        $a = parent::all($sql, [$value]);
+        $a = parent::all($sql, $values);
         return $a;
     }
 
@@ -54,7 +53,7 @@ class WpPosts extends LiteRecord
             ORDER BY p.post_date DESC
             LIMIT $n
         ";
-        $a = parent::all($sql);
+        $a = $this->all($sql);
         return $a;
     }
 
@@ -67,7 +66,8 @@ class WpPosts extends LiteRecord
             AND p.post_type='post'
             ORDER BY p.post_date DESC
         ";
-        $posts = parent::all($sql);
+        $posts = $this->all($sql);
+        $a = [];
         foreach ($posts as $o)
         {
             $time = strtotime($o->post_date);
@@ -88,9 +88,9 @@ class WpPosts extends LiteRecord
             AND p.post_status='publish'
             AND u.user_nicename=?
         ";
-        $a = parent::all($sql, [$author]);
+        $a = $this->all($sql, [$author]);
         $sql = "SELECT meta_value FROM wp_usermeta WHERE user_id={$a[0]->ID} AND meta_key='description'";
-        $b = parent::first($sql);
+        $b = $this->first($sql);
         $a[0]->description = $b->meta_value;
         return $a;
     }
@@ -98,13 +98,15 @@ class WpPosts extends LiteRecord
     #
     public function byQuery($q)
     {
+        if ( preg_match('/[^0-9a-z_ \-]/i', $q) ) throw new KumbiaException('QUERY MALO');
+
         $sql = "SELECT p.ID, p.post_name, p.post_title, p.post_date, p.post_author, p.post_content, u.user_nicename, u.user_email, u.user_url, u.display_name
             FROM wp_posts p, wp_users u
             WHERE p.post_author=u.ID
             AND p.post_status='publish'
             AND (p.post_title LIKE ? OR p.post_content LIKE ?)
         ";
-        $a = parent::all($sql, ["%$q%", "%$q%"]);
+        $a = $this->all($sql, ["%$q%", "%$q%"]);
         return $a;
     }
 
@@ -121,7 +123,7 @@ class WpPosts extends LiteRecord
             AND t.slug=?
             AND p.post_author=u.ID
         ";
-        $a = parent::all($sql, [$term, $item]);
+        $a = $this->all($sql, [$term, $item]);
         return $a;
     }
 }

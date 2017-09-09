@@ -4,19 +4,28 @@
 class BlogController extends AppController
 {
     #
+    protected function before_filter()
+    {
+        View::template('blog');
+    }
+
+    #
     public function index($year='', $month='', $day='', $slug='')
     {
         if ($slug) :
             if ( ! empty($_POST['add_comment']) ) (new WpComments)->add($_POST);
+            else if ( ! empty($_POST['edit_comment']) ) (new WpComments)->edit($_POST);
+            else if ( ! empty($_POST['quit_comment']) ) (new WpComments)->quit($_POST['quit_comment']);
             $this->post = (new WpPosts)->one($slug);
             $this->tags = (new WpTerms)->tagsByPost($this->post);
-            $this->comments = (new WpComments)->all($this->post->ID);
+            $this->comments = (new WpComments)->allComments($this->post->ID);
             $this->n_comments = (new WpComments)->count($this->post->ID);
-            $this->comment = ( Input::get('comment_ID') )
-                ? (new WpComments)->one( Input::get('comment_ID') ) : '';
+            $comment_id = Input::get('editar');
+            if ( ! $comment_id ) $comment_id = Input::get('responder');
+            $this->comment = ($comment_id) ? (new WpComments)->one($comment_id) : '';
             View::select('post');
         else :
-            $this->posts = (new WpPosts)->all($year, $month, $day);
+            $this->posts = (new WpPosts)->allPost($year, $month, $day);
             $this->n_comments = (new WpComments)->count();
             View::select('posts');
         endif;
@@ -28,7 +37,7 @@ class BlogController extends AppController
     public function aside()
     {
         $this->categories = (new WpTerms)->categories();
-        $this->links = (new WpLinks)->all();
+        $this->links = (new WpLinks)->allLinks();
         $this->last_posts = (new WpPosts)->latest(5);
         $this->last_comments = (new WpComments)->latest(4);
         $this->archive = (new WpPosts)->archive();

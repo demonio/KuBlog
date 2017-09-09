@@ -4,9 +4,9 @@ $post_date = date('Y/m/d', $time);
 ?>
 <article class="col s12 m7 l8">
     <ul class="collection">
-        <li class="collection-item row">
+        <li class="collection-item grey lighten-5 row">
             <h1><?=$title = $post->post_title?></h1>
-            <div class="col s6 m6 l3 valign-wrapper">
+            <div class="col s6 m6 l3 georgia valign-wrapper">
                 <i class="material-icons">date_range</i> &nbsp;
                 <?=strftime('%e %B, %Y', $time)?>
             </div>
@@ -18,27 +18,20 @@ $post_date = date('Y/m/d', $time);
             <hr class="mv15 l0">
             <div class="col s6 m6 l3 valign-wrapper">
             <i class="material-icons">comment</i> &nbsp;
-                <a href="#comments">
+                <a class="cursive" href="#comments">
                     <?=empty($n_comments[$post->ID])?0:$n_comments[$post->ID]?>
                     Comments
                 </a>
             </div>
             <div class="col s6 m6 l3 valign-wrapper">
-                <a href="//www.facebook.com/sharer/sharer.php?u=https://<?=$_SERVER['HTTP_HOST']?>/blog/<?="$post_date/$post->post_name"?>"
-                    target="_blank">
-                    <img src="/img/icon-facebook.svg" width="32">
-                </a> &nbsp; &nbsp; &nbsp; 
-                <a href="//twitter.com/home?status=<?=urlencode($post->post_title)?>%20—%20//<?=$_SERVER['HTTP_HOST']?>/blog/<?="$post_date/$post->post_name"?>"
-                    target="_blank">
-                    <img src="/img/icon-twitter.svg" width="32">
-                </a>
+
             </div>
             <div class="clearfix"></div>
         </li>
-        <li class="collection-item">
-            <div class="flow-text"><?=$post->post_content?></div>
+        <li class="collection-item grey lighten-5">
+            <div class="flow-text"><?=nl2br($post->post_content)?></div>
         </li>
-        <li class="collection-item">
+        <li class="collection-item grey lighten-5">
             <?php foreach ($tags as $o) : ?>
                 <a href="/blog/tag/<?=$o->slug?>/">
                     <div class="chip"><?=$o->name?></div>
@@ -46,44 +39,52 @@ $post_date = date('Y/m/d', $time);
             <?php endforeach; ?>
         </li>
     </ul>
+
     <div id="comments">
         <?php if ( ! empty($comments) ) Comments::all($comments); ?>
         <ul class="collection">
-            <li class="collection-item" id="comment-form">
-                <h3>Deja un comentario</h3>
+            <li class="collection-item grey lighten-5 mt15" id="formulario">
+                <h4>Deja un comentario</h4>
                 <form action method="post">
                     <p>
                         <em><small>Tu dirección de correo electrónico no será publicada. Los campos obligatorios están marcados con *</small></em>
                     </p>
-                    <?php if ($comment) : ?>
+                    <?php if (Input::get('responder') and $comment) : ?>
                         <p>
                             Estas contestando a <?=$comment->comment_author?>
                             <blockquote><?=$comment->comment_content?></blockquote>
                             <input type="hidden" name="parent" value="<?=$comment->comment_ID?>">
                         </p>
+                    <?php else : ?>
+                        <input type="hidden" name="parent" value="0">
                     <?php endif; ?>
                     <p>
                         <label for="comment">Comentario *</label> 
-                        <textarea class="materialize-textarea" id="comment" name="comment" maxlength="65525"></textarea>
+                        <textarea class="materialize-textarea" id="comment" name="comment" maxlength="65525"><?=(Input::get('editar') and $comment)?$comment->comment_content:''?></textarea>
                     </p>
                     <p>
-                        <label for="author">Nombre *</label>
-                        <input type="text" id="author" name="author" maxlength="245">
+                        <label for="author">Nombre o alias *</label>
+                        <input type="text" id="author" name="author" maxlength="245" value="<?=(Input::get('editar') and $comment)?$comment->comment_author:''?>">
                     </p>
                     <p>
                         <label for="email">Correo electrónico *</label>
-                        <input type="email" id="email" name="email" maxlength="100">
+                        <input type="email" id="email" name="email" maxlength="100" value="<?=(Input::get('editar') and $comment)?$comment->comment_author_email:''?>">
                     </p>
                     <p>
                         <label for="url">Web</label>
-                        <input type="url" id="url" name="url" maxlength="200">
+                        <input type="url" id="url" name="url" maxlength="200" value="<?=(Input::get('editar') and $comment)?$comment->comment_author_url:''?>">
                     </p>
                     <p class="hide">
                         <label for="telefono">Telefono</label>
                         <input type="text" id="telefono" name="telefono" maxlength="9">
                     </p>
                     <p>
-                        <button type="submit" class="btn blue-bg" name="add_comment" value="1">Publicar Comentario</button> 
+                        <?php if (Input::get('editar') and $comment) : ?>
+                            <button type="submit" class="btn orange darken-1" name="edit_comment" value="<?=$comment->comment_ID?>">Actualizar</button> 
+                            <button type="submit" class="btn red darken-1" name="quit_comment" value="<?=$comment->comment_ID?>">Eliminar</button> 
+                        <?php else : ?>
+                            <button type="submit" class="btn green darken-1" name="add_comment" value="1">Publicar comentario</button> 
+                        <?php endif; ?>
                         <input type="hidden" name="post_ID" value="<?=$post->ID?>">
                     </p>            
                 </form>
